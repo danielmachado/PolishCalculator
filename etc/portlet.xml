@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+
+<portlet-app id="polish_calculator_portlet"
+	xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd 
+			http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
+	<portlet>
+		<description>portlet calculadora notacion polaca inversa</description>
+		<portlet-name>polish_calculator_portlet</portlet-name>
+		<display-name>Polish Calculator</display-name>
+
+		<portlet-class>uo.miw.gcw.portlet.CalculatorPortlet</portlet-class>
+		<init-param>
+			<name>jspView</name>
+			<value>/WEB-INF/jsps/view.jsp</value>
+		</init-param>
+
+		<expiration-cache>0</expiration-cache>
+
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>VIEW</portlet-mode>
+		</supports>
+
+		<portlet-info>
+			<title>Polish Calculator</title>
+			<short-title>PCalculator</short-title>
+			<keywords>Calculator</keywords>
+		</portlet-info>
+
+		<supported-publishing-event>
+			<qname xmlns:x="http://uo.miw.gcw/events">x:polish.modified</qname>
+		</supported-publishing-event>
+	</portlet>
+	<portlet>
+		<description>portlet calculadora notacion polaca inversa visor</description>
+		<portlet-name>polish_calculator_viewer_portlet</portlet-name>
+		<display-name>Polish Calculator Viewer</display-name>
+
+		<portlet-class>uo.miw.gcw.portlet.CalculatorViewerPortlet</portlet-class>
+		<init-param>
+			<name>viewer</name>
+			<value>/WEB-INF/jsps/viewer.jsp</value>
+		</init-param>
+
+		<expiration-cache>0</expiration-cache>
+
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>VIEW</portlet-mode>
+		</supports>
+
+		<portlet-info>
+			<title>Polish Calculator Viewer</title>
+			<short-title>PCalculatorViewer</short-title>
+			<keywords>Calculator Viewer</keywords>
+		</portlet-info>
+
+		<supported-processing-event>
+			<qname xmlns:x="http://uo.miw.gcw/events">x:polish.modified</qname>
+		</supported-processing-event>
+	</portlet>
+
+	<event-definition>
+		<qname xmlns:x="http://uo.miw.gcw/events">x:polish.modified</qname>
+		<value-type>java.lang.String</value-type>
+	</event-definition>
+
+</portlet-app>

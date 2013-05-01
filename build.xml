@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="polish_calculator_portlet" basedir="." default="deploy">
+
+    <property name="build.dir" value="distribution" />
+    <property name="compile.lib.dir" value="compile-lib" />
+    <property name="lib.dir" value="lib" />
+    <property name="web.src" value="web"/>
+    <property name="etc.src" value="etc"/>
+    <property name="java.src" value="src"/>
+    <property name="lang.src" value="${web.src}/lang"/>
+    <property name="jsp.src" value="${web.src}/jsps"/>
+    <property name="web.inf" value="${build.dir}/WEB-INF" />
+    <property name="web.inf.classes" value="${web.inf}/classes" />
+    <property name="web.inf.lib" value="${web.inf}/lib" />
+    <property name="web.inf.jsp" value="${web.inf}/jsps" />
+
+    <!-- Change the name of the deploy dir in build.properties -->
+	<property file="../build.properties" />
+
+    <!-- Change the name of the war file you want to create -->
+    <property name="war.name" value="${ant.project.name}.war" />
+
+    <path id="project.classpath">
+    	<fileset dir="${compile.lib.dir}">
+    		<include name="**/*.jar"/>
+    	</fileset>
+    	<fileset dir="${lib.dir}">
+    		<include name="**/*.jar"/>
+    	</fileset>
+    </path>
+
+    <target name="clean">
+        <delete dir="${build.dir}" />
+    </target>
+
+    <target name="init" depends="clean">
+        <mkdir dir="${web.inf.classes}" />
+    </target>
+
+    <target name="build" depends="init" >
+        <echo message="${ant.project.name}: ${ant.file}" />
+
+    	<property name="myclasspath" refid="project.classpath"/>
+        <echo message="compile classpath: ${myclasspath}" />
+    	
+        <javac destdir="${web.inf.classes}" debug="true">
+            <src path="${java.src}" />
+            <classpath refid="project.classpath" />
+        </javac>
+    </target>
+    
+    <target name="war" depends="build">
+        <copy todir="${web.inf}">
+            <fileset dir="${etc.src}" />
+        </copy>
+
+    	<copy todir="${web.inf.classes}">
+            <fileset dir="${lang.src}" />
+        </copy>
+        
+        <copy todir="${web.inf.lib}">
+            <fileset dir="${lib.dir}"/>
+        </copy>
+ 
+        <copy todir="${web.inf.jsp}">
+            <fileset dir="${jsp.src}"/>
+        </copy>
+  
+    	<copy todir="${build.dir}" includeemptydirs="false">
+            <fileset dir="${web.src}">
+            	<exclude name="**/lang/*"/>
+            	<exclude name="**/jsps/**"/>
+            </fileset>
+        </copy>
+
+    	<jar basedir="${build.dir}" destfile="${build.dir}/${war.name}"/>
+    </target>
+
+	<target name="deploy" depends="war">    	
+        <copy file="${build.dir}/${war.name}" todir="${deploy.dir}"/>
+    </target>
+
+</project>
+
